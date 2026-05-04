@@ -107,7 +107,7 @@ export default function Dashboard() {
   const currentTab = tabs.find(t => t.id === activeTab);
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 lg:flex">
 
       {/* Mobile Sidebar Overlay */}
       <AnimatePresence>
