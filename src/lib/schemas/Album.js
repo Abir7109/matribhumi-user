@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const PhotoSchema = new mongoose.Schema({
   photoId: { type: String, required: true },
@@ -32,4 +32,4 @@ AlbumSchema.pre('save', function() {
   this.photoCount = this.photos.length;
 });
 
-export default mongoose.models.Album || mongoose.model('Album', AlbumSchema);
+module.exports = mongoose.models.Album || mongoose.model('Album', AlbumSchema);

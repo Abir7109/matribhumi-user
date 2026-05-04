@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const ItineraryItemSchema = new mongoose.Schema({
   day: { type: String, required: true },
@@ -47,4 +47,4 @@ PackageSchema.pre('save', function() {
   this.updatedAt = new Date();
 });
 
-export default mongoose.models.Package || mongoose.model('Package', PackageSchema);
+module.exports = mongoose.models.Package || mongoose.model('Package', PackageSchema);

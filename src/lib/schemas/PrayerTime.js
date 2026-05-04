@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const PrayerTimeSchema = new mongoose.Schema({
   date: { type: String, required: true },
@@ -23,4 +23,4 @@ PrayerTimeSchema.pre('save', function() {
   this.updatedAt = new Date();
 });
 
-export default mongoose.models.PrayerTime || mongoose.model('PrayerTime', PrayerTimeSchema);
+module.exports = mongoose.models.PrayerTime || mongoose.model('PrayerTime', PrayerTimeSchema);
