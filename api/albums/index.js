@@ -3,12 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import type { VercelRequest, VercelResponse } from '@vercel/node';
-import connectToDatabase from '../../src/lib/mongodb';
-import Album from '../../src/lib/schemas/Album';
+import connectToDatabase from '../../src/lib/mongodb.js';
+import Album from '../../src/lib/schemas/Album.js';
 
 // Middleware to verify JWT token
-const verifyToken = (req: VercelRequest): boolean => {
+const verifyToken = (req) => {
   const authHeader = req.headers.authorization;
   if (!authHeader?.startsWith('Bearer ')) return false;
   
@@ -22,7 +21,7 @@ const verifyToken = (req: VercelRequest): boolean => {
   }
 };
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -53,7 +52,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return res.status(401).json({ error: 'Unauthorized' });
         }
         const { id, ...updateData } = req.body;
-        // @ts-ignore - Mongoose TypeScript compatibility
         const updatedAlbum = await Album.findByIdAndUpdate(id, updateData, { new: true });
         if (!updatedAlbum) {
           return res.status(404).json({ error: 'Album not found' });
@@ -65,8 +63,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return res.status(401).json({ error: 'Unauthorized' });
         }
         const { id: deleteId } = req.query;
-        // @ts-ignore - Mongoose TypeScript compatibility
-        const deletedAlbum = await Album.findByIdAndDelete(deleteId as string);
+        const deletedAlbum = await Album.findByIdAndDelete(deleteId);
         if (!deletedAlbum) {
           return res.status(404).json({ error: 'Album not found' });
         }
@@ -78,6 +75,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   } catch (error) {
     console.error('Albums API error:', error);
     console.error('Error details:', JSON.stringify(error, Object.getOwnPropertyNames(error)));
-    return res.status(500).json({ error: 'Internal server error', message: error instanceof Error ? error.message : 'Unknown error' });
+    return res.status(500).json({ error: 'Internal server error', message: error.message || 'Unknown error' });
   }
 }

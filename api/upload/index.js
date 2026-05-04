@@ -3,11 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import type { VercelRequest, VercelResponse } from '@vercel/node';
 import ImageKit from 'imagekit';
 
 // Middleware to verify JWT token
-const verifyToken = (req: VercelRequest): boolean => {
+const verifyToken = (req) => {
   const authHeader = req.headers.authorization;
   if (!authHeader?.startsWith('Bearer ')) return false;
   
@@ -27,7 +26,7 @@ const imagekit = new ImageKit({
   urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT || '',
 });
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');

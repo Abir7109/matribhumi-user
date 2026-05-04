@@ -3,12 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import type { VercelRequest, VercelResponse } from '@vercel/node';
-import connectToDatabase from '../../src/lib/mongodb';
-import PrayerTime from '../../src/lib/schemas/PrayerTime';
+import connectToDatabase from '../../src/lib/mongodb.js';
+import PrayerTime from '../../src/lib/schemas/PrayerTime.js';
 
 // Middleware to verify JWT token
-const verifyToken = (req: VercelRequest): boolean => {
+const verifyToken = (req) => {
   const authHeader = req.headers.authorization;
   if (!authHeader?.startsWith('Bearer ')) return false;
   
@@ -22,7 +21,7 @@ const verifyToken = (req: VercelRequest): boolean => {
   }
 };
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, PUT, OPTIONS');
@@ -78,6 +77,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   } catch (error) {
     console.error('Prayer times API error:', error);
     console.error('Error details:', JSON.stringify(error, Object.getOwnPropertyNames(error)));
-    return res.status(500).json({ error: 'Internal server error', message: error instanceof Error ? error.message : 'Unknown error' });
+    return res.status(500).json({ error: 'Internal server error', message: error.message || 'Unknown error' });
   }
 }
