@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import connectToDatabase from '../../src/lib/mongodb.js';
-import Album from '../../src/lib/schemas/Album.js';
+const connectToDatabase = require('../../src/lib/mongodb');
+const Album = require('../../src/lib/schemas/Album');
 
 // Middleware to verify JWT token
 const verifyToken = (req) => {
@@ -21,7 +21,7 @@ const verifyToken = (req) => {
   }
 };
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
