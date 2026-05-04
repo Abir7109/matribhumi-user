@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { AnimatePresence } from 'motion/react';
 import {
   Plus,
   Edit2,
@@ -16,8 +16,6 @@ import {
   Upload,
   Image as ImageIcon,
   AlertCircle,
-  FolderOpen,
-  Layers,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import ImageUploader from './ImageUploader';
@@ -205,7 +203,7 @@ export default function AlbumsManager() {
   if (loading) {
     return (
       <div className="flex justify-center items-center py-12">
-        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
       </div>
     );
   }
@@ -276,66 +274,59 @@ export default function AlbumsManager() {
             </div>
 
             {/* Expanded Photos */}
-            <AnimatePresence>
-              {expandedId === album._id && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  className="border-t border-slate-100"
-                >
-                  <div className="p-4">
-                    {/* Upload Button */}
-                    <div className="mb-4">
-                      <label className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-lg cursor-pointer transition-colors w-fit">
-                        <Upload className="w-4 h-4" />
-                        <span className="text-sm font-medium">Add Photos</span>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          multiple
-                          className="hidden"
-                          onChange={(e) => {
-                            const files = e.target.files;
-                            if (files && album._id) {
-                              Array.from(files).forEach(file => handlePhotoUpload(album._id!, file));
-                            }
-                          }}
-                        />
-                      </label>
-                      {uploading && <span className="ml-3 text-sm text-slate-500">Uploading...</span>}
-                    </div>
-
-                    {/* Photos Grid */}
-                    {album.photos.length > 0 ? (
-                      <div className="grid grid-cols-4 gap-3">
-                        {album.photos.map((photo, index) => (
-                          <div key={photo.photoId} className="relative group">
-                            <img
-                              src={photo.src}
-                              alt={photo.caption}
-                              className="w-full aspect-square object-cover rounded-lg"
-                            />
-                            <button
-                              onClick={() => album._id && handleRemovePhoto(album._id, photo.photoId)}
-                              className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded opacity-0 group-hover:opacity-100 transition-opacity"
-                            >
-                              <X className="w-3 h-3" />
-                            </button>
-                            <p className="text-xs text-slate-500 mt-1 truncate">{photo.caption || `Photo ${index + 1}`}</p>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="text-center py-8 text-slate-400">
-                        <ImageIcon className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                        <p>No photos in this album</p>
-                      </div>
-                    )}
+            {expandedId === album._id && (
+              <div className="border-t border-slate-100">
+                <div className="p-4">
+                  {/* Upload Button */}
+                  <div className="mb-4">
+                    <label className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-lg cursor-pointer transition-colors w-fit">
+                      <Upload className="w-4 h-4" />
+                      <span className="text-sm font-medium">Add Photos</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        className="hidden"
+                        onChange={(e) => {
+                          const files = e.target.files;
+                          if (files && album._id) {
+                            Array.from(files).forEach(file => handlePhotoUpload(album._id!, file));
+                          }
+                        }}
+                      />
+                    </label>
+                    {uploading && <span className="ml-3 text-sm text-slate-500">Uploading...</span>}
                   </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+
+                  {/* Photos Grid */}
+                  {album.photos.length > 0 ? (
+                    <div className="grid grid-cols-4 gap-3">
+                      {album.photos.map((photo, index) => (
+                        <div key={photo.photoId} className="relative group">
+                          <img
+                            src={photo.src}
+                            alt={photo.caption}
+                            className="w-full aspect-square object-cover rounded-lg"
+                          />
+                          <button
+                            onClick={() => album._id && handleRemovePhoto(album._id, photo.photoId)}
+                            className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                          <p className="text-xs text-slate-500 mt-1 truncate">{photo.caption || `Photo ${index + 1}`}</p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 text-slate-400">
+                      <ImageIcon className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                      <p>No photos in this album</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         ))}
       </div>
@@ -344,12 +335,7 @@ export default function AlbumsManager() {
       <AnimatePresence>
         {showForm && (
           <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white rounded-2xl w-full max-w-lg"
-            >
+            <div className="bg-white rounded-xl w-full max-w-lg">
               <div className="p-4 border-b border-slate-100 flex items-center justify-between">
                 <h2 className="text-lg font-semibold">
                   {editingAlbum ? 'Edit Album' : 'Add New Album'}
@@ -458,7 +444,7 @@ export default function AlbumsManager() {
                   </button>
                 </div>
               </form>
-            </motion.div>
+            </div>
           </div>
         )}
       </AnimatePresence>
@@ -467,12 +453,7 @@ export default function AlbumsManager() {
       <AnimatePresence>
         {deleteConfirm && (
           <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white rounded-xl p-6 max-w-sm w-full"
-            >
+            <div className="bg-white rounded-xl p-6 max-w-sm w-full">
               <div className="flex items-center gap-3 text-red-600 mb-4">
                 <AlertCircle className="w-6 h-6" />
                 <h3 className="font-semibold">Delete Album?</h3>
@@ -494,7 +475,7 @@ export default function AlbumsManager() {
                   Delete
                 </button>
               </div>
-            </motion.div>
+            </div>
           </div>
         )}
       </AnimatePresence>

@@ -4,7 +4,6 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
 import {
   Save,
   Clock,
@@ -94,7 +93,7 @@ export default function PrayerTimesManager() {
   if (loading) {
     return (
       <div className="flex justify-center items-center py-12">
-        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
       </div>
     );
   }
@@ -165,14 +164,10 @@ export default function PrayerTimesManager() {
         <div className="flex items-center justify-between mt-8 pt-6 border-t border-slate-100">
           <div className="flex items-center gap-2">
             {saved && (
-              <motion.span
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="flex items-center gap-1 text-green-600 text-sm font-medium"
-              >
+              <span className="flex items-center gap-1 text-green-600 text-sm font-medium">
                 <Check className="w-4 h-4" />
                 Saved successfully
-              </motion.span>
+              </span>
             )}
           </div>
           <div className="flex gap-3">
