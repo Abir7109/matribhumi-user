@@ -77,6 +77,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
   } catch (error) {
     console.error('Albums API error:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    console.error('Error details:', JSON.stringify(error, Object.getOwnPropertyNames(error)));
+    return res.status(500).json({ error: 'Internal server error', message: error instanceof Error ? error.message : 'Unknown error' });
   }
 }
