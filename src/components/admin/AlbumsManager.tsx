@@ -16,8 +16,11 @@ import {
   Upload,
   Image as ImageIcon,
   AlertCircle,
+  FolderOpen,
+  Layers,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import ImageUploader from './ImageUploader';
 
 interface Photo {
   photoId: string;
@@ -430,13 +433,11 @@ export default function AlbumsManager() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Cover Image URL</label>
-                  <input
-                    type="url"
-                    value={formData.coverImage}
-                    onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"
-                    required
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Cover Image</label>
+                  <ImageUploader
+                    currentImage={formData.coverImage}
+                    onImageUploaded={(url) => setFormData({ ...formData, coverImage: url })}
+                    onRemove={() => setFormData({ ...formData, coverImage: '' })}
                   />
                 </div>
 

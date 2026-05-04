@@ -14,8 +14,16 @@ import {
   ChevronUp,
   Save,
   AlertCircle,
+  Package as PackageIcon,
+  Sparkles,
+  MapPin,
+  DollarSign,
+  Calendar,
+  CheckCircle,
+  XCircle,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import ImageUploader from './ImageUploader';
 
 interface ItineraryItem {
   day: string;
@@ -373,15 +381,13 @@ export default function PackagesManager() {
                   </div>
                 </div>
 
-                {/* Image URL */}
+                {/* Image Upload */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Image URL</label>
-                  <input
-                    type="url"
-                    value={formData.image}
-                    onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"
-                    required
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Package Image</label>
+                  <ImageUploader
+                    currentImage={formData.image}
+                    onImageUploaded={(url) => setFormData({ ...formData, image: url })}
+                    onRemove={() => setFormData({ ...formData, image: '' })}
                   />
                 </div>
 
