@@ -1,0 +1,12 @@
+{
+  "name": "Matribhumi Hajj Kafela",
+  "description": "Premium Hajj and Umrah travel service offering spiritual guidance, luxury stays, and seamless logistics.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "multi-step-forms",
+    "real-time-widgets",
+    "premium-ui-design"
+  ]
+}

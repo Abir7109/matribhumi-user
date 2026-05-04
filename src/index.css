@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Aref+Ruqaa:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-hajj: "Hind Siliguri", sans-serif;
+  --font-arabic: "Aref Ruqaa", serif;
+
+  --color-primary: #00526a;
+  --color-primary-container: #176b87;
+  --color-secondary: #755b00;
+  --color-secondary-container: #fed977;
+  --color-background: #f6faff;
+  --color-surface: #ffffff;
+  --color-accent-gold: #ffe08f;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-slate-900 font-sans;
+  }
+}
+
+.islamic-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l2.598 5.402L38.196 6.804l-4.196 4.196 1.402 5.598L30 14.402l-5.402 2.196 1.402-5.598-4.196-4.196 5.598-1.402L30 0zM0 30l2.598 5.402 5.598 1.402-4.196 4.196 1.402 5.598L0 44.402l-5.402 2.196 1.402-5.598-4.196-4.196 5.598-1.402L0 30zm60 0l2.598 5.402 5.598 1.402-4.196 4.196 1.402 5.598L60 44.402l-5.402 2.196 1.402-5.598-4.196-4.196 5.598-1.402L60 30zM30 60l2.598-5.402 5.598-1.402-4.196-4.196 1.402-5.598L30 45.598l-5.402-2.196 1.402 5.598-4.196 4.196 5.598 1.402L30 60z' fill='%23176b87' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+/* Custom Hide Scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
