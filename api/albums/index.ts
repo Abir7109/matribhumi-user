@@ -53,11 +53,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return res.status(401).json({ error: 'Unauthorized' });
         }
         const { id, ...updateData } = req.body;
-        const updatedAlbum = await Album.findByIdAndUpdate(
-          id,
-          updateData,
-          { new: true }
-        );
+        // @ts-ignore - Mongoose TypeScript compatibility
+        const updatedAlbum = await Album.findByIdAndUpdate(id, updateData, { new: true });
         if (!updatedAlbum) {
           return res.status(404).json({ error: 'Album not found' });
         }
@@ -68,7 +65,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return res.status(401).json({ error: 'Unauthorized' });
         }
         const { id: deleteId } = req.query;
-        const deletedAlbum = await Album.findByIdAndDelete(deleteId);
+        // @ts-ignore - Mongoose TypeScript compatibility
+        const deletedAlbum = await Album.findByIdAndDelete(deleteId as string);
         if (!deletedAlbum) {
           return res.status(404).json({ error: 'Album not found' });
         }

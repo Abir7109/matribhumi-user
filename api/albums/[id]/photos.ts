@@ -40,6 +40,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     await connectToDatabase();
 
+    // @ts-ignore - Mongoose TypeScript compatibility
     const album = await Album.findById(id);
     if (!album) {
       return res.status(404).json({ error: 'Album not found' });

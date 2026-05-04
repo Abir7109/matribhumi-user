@@ -53,11 +53,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return res.status(401).json({ error: 'Unauthorized' });
         }
         const { id, ...updateData } = req.body;
-        const updatedPackage = await Package.findByIdAndUpdate(
-          id,
-          updateData,
-          { new: true }
-        );
+        // @ts-ignore - Mongoose TypeScript compatibility
+        const updatedPackage = await Package.findByIdAndUpdate(id, updateData, { new: true });
         if (!updatedPackage) {
           return res.status(404).json({ error: 'Package not found' });
         }
@@ -68,7 +65,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return res.status(401).json({ error: 'Unauthorized' });
         }
         const { id: deleteId } = req.query;
-        const deletedPackage = await Package.findByIdAndDelete(deleteId);
+        // @ts-ignore - Mongoose TypeScript compatibility
+        const deletedPackage = await Package.findByIdAndDelete(deleteId as string);
         if (!deletedPackage) {
           return res.status(404).json({ error: 'Package not found' });
         }
