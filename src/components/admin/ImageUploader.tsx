@@ -14,6 +14,7 @@ import {
   AlertCircle,
   Trash2,
 } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 interface ImageUploaderProps {
   onImageUploaded: (url: string) => void;
@@ -22,6 +23,7 @@ interface ImageUploaderProps {
 }
 
 export default function ImageUploader({ onImageUploaded, currentImage, onRemove }: ImageUploaderProps) {
+  const { token } = useAuth();
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -57,13 +59,24 @@ export default function ImageUploader({ onImageUploaded, currentImage, onRemove 
   };
 
   const uploadToImageKit = async (file: File): Promise<string> => {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('fileName', file.name.replace(/\.[^/.]+$/, '') + '_' + Date.now());
+    // Convert file to base64
+    const base64 = await new Promise<string>((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.readAsDataURL(file);
+    });
 
     const response = await fetch('/api/upload', {
       method: 'POST',
-      body: formData,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        file: base64,
+        fileName: file.name,
+        folder: 'uploads',
+      }),
     });
 
     if (!response.ok) {
