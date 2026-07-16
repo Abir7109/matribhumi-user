@@ -22,6 +22,7 @@ export default function Navigation({ activeScreen, onScreenChange }: NavigationP
   const navLinks = [
     { label: t("nav.home"), screen: "home", action: () => { onScreenChange("home"); window.scrollTo({ top: 0, behavior: "smooth" }); } },
     { label: t("nav.packages"), screen: "home", action: () => { onScreenChange("home"); setTimeout(() => document.getElementById("packages")?.scrollIntoView({ behavior: "smooth" }), 100); } },
+    { label: t("nav.hajj2027"), screen: "hajj-2027", action: () => { onScreenChange("hajj-2027"); window.scrollTo({ top: 0, behavior: "smooth" }); } },
     { label: t("nav.services"), screen: "services", action: () => onScreenChange("services") },
     { label: t("nav.contact"), screen: "contact", action: () => onScreenChange("contact") },
   ];

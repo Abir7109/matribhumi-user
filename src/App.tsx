@@ -12,6 +12,8 @@ import Booking from "./components/Booking";
 import PrayerTimes from "./components/PrayerTimes";
 import PackageDetails from "./components/PackageDetails";
 import StepDetail from "./components/StepDetail";
+import Hajj2027Page from "./components/Hajj2027Page";
+import Hajj2027Popup from "./components/Hajj2027Popup";
 import Dashboard from "./components/admin/Dashboard";
 import { motion, AnimatePresence } from "motion/react";
 import { PackageData } from "./types";
@@ -35,6 +37,7 @@ function AppContent() {
   const [isLoading, setIsLoading] = useState(true);
   const [isAlbumOpen, setIsAlbumOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [showHajjPopup, setShowHajjPopup] = useState(false);
 
   useEffect(() => {
     // Check if we're on the admin route
@@ -45,6 +48,13 @@ function AppContent() {
     const timer = setTimeout(() => setIsLoading(false), 1500);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (!isLoading) {
+      const popupTimer = setTimeout(() => setShowHajjPopup(true), 2000);
+      return () => clearTimeout(popupTimer);
+    }
+  }, [isLoading]);
 
   const handlePackageSelect = (pkg: PackageData) => {
     setSelectedPackage(pkg);
@@ -60,8 +70,9 @@ function AppContent() {
 
   const renderScreen = () => {
     switch (activeScreen) {
-      case "home": return <Home onPackageSelect={handlePackageSelect} onStepSelect={handleStepSelect} onAlbumOpenChange={setIsAlbumOpen} />;
+      case "home": return <Home onPackageSelect={handlePackageSelect} onStepSelect={handleStepSelect} onAlbumOpenChange={setIsAlbumOpen} onScreenChange={setActiveScreen} />;
       case "services": return <Services onScreenChange={setActiveScreen} />;
+      case "hajj-2027": return <Hajj2027Page />;
       case "contact": return <Booking onBack={() => setActiveScreen("home")} />;
       case "package-details": 
         return selectedPackage ? (
@@ -221,6 +232,13 @@ function AppContent() {
           <span className="absolute left-full ml-3 bg-white text-[#00526a] px-3 py-1.5 rounded-lg text-[10px] font-bold shadow-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap border border-primary/5">WhatsApp Chat</span>
         </motion.a>
       </div>
+
+      {/* Hajj 2027 Popup */}
+      <Hajj2027Popup
+        open={showHajjPopup}
+        onClose={() => setShowHajjPopup(false)}
+        onGoToHajj2027={() => setActiveScreen("hajj-2027")}
+      />
     </div>
   );
 }
